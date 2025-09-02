@@ -1,11 +1,6 @@
 # AdaServe-Artifact-Evaluation
 The artifact evaluation repo for AdaServe.
 
-
-# Collie (paper 183 @ NSDI 2026) - Artifact Evaluation
-
-Paper PDF: [nsdi26spring-paper183.pdf](./nsdi26spring-paper183.pdf)
-
 ## Getting Started Instructions
 
 ### Hardware setup
