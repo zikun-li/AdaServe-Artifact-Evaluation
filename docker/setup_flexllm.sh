@@ -7,30 +7,36 @@ read -sp "Enter your Hugging Face token: " HF_TOKEN
 echo
 export HF_TOKEN
 
-docker exec -it -e HF_TOKEN flexllm /bin/bash -c '
+docker exec -it -e HF_TOKEN adaserve /bin/bash -c '
 set -x
 set -e
 
-# Clone the codebase inside the container
-git clone -b flexllm-aec --recursive https://github.com/goliaro/flexllm.git
+# Clone the codebase inside the container.
+git clone https://github.com/flexflow/flexflow-serve.git adaserve && cd adaserve
+git checkout AdaServe-AE
+git submodule update --init --recursive
 
-# Install the Python packages that are needed for the experiments
-cd flexllm
-pip install -r requirements.txt
-
-# Login to Hugging Face, and download the traces for the experiments
-huggingface-cli login --token $HF_TOKEN
-./benchmarking/get_traces.sh
-
-# Build FlexLLM
-cd flexflow-serve 
-mkdir -p build 
+# Build AdaServe.
+pip install cmake==3.27.7
+rustup install 1.82.0 && rustup default 1.82.0
+mkdir -p build
 cd build
-../config/config.linux 
+../config/config.linux
 make -j
 
-# Download the huggingface models to be used in the experiments
-source ./set_python_envs.sh 
-cd .. 
-python inference/utils/download_hf_model.py --half-precision-only meta-llama/Llama-3.1-8B-Instruct Qwen/Qwen2.5-14B-Instruct Qwen/Qwen2.5-32B-Instruct
+# Install th Python packages and download the huggingface models.
+cd ../..
+git clone https://github.com/flexflow/flexflow-serve.git download_model && cd download_model
+git checkout flexllm-aec
+git submodule update --init --recursive
+pip install flash_attn==2.7.4.post1
+huggingface-cli login --token $HF_TOKEN
+mkdir -p build
+cd build
+../config/config.linux
+make -j
+source ./set_python_envs.sh
+cd ..
+mkdir -p ../adaserve/models
+python inference/utils/download_hf_model.py --half-precision-only meta-llama/llama-3.1-70b-instruct meta-llama/llama-3.2-1b-instruct Qwen/Qwen2.5-32B-instruct Qwen/Qwen2.5-0.5B-instruct --cache-folder ../adaserve/models
 '
