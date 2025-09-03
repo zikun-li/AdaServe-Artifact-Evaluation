@@ -27,3 +27,5 @@ The teardown step is important to ensure that the next reviewer has access to a 
 
 - Run `./docker/cleanup_containers.sh` after you are done to stop and destroy the container and all docker images/data.
 - From the host machine, delete the `AdaServe-Artifact-Evaluation` repo and any other files you have created/downloaded
+
+## Running the experiments
