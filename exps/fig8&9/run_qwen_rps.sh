@@ -9,7 +9,7 @@ export OUTPUT_DIR=$REPO_DIR/results/fig8/qwen/
 export LLM_MODEL=Qwen/Qwen2.5-32B-instruct
 export MODEL_NAME=Qwen/Qwen2.5-32B-instruct
 export SSM_MODEL=Qwen/Qwen2.5-0.5B-instruct
-export TENSOR_PARALLEL_SIZE=2
+export TENSOR_PARALLEL_SIZE=4
 export BASELINE_LATENCY_PER_TOKEN_MS=28
 export BASELINE_LATENCY_PER_TOKEN=0.028
 
@@ -73,8 +73,6 @@ if [ "$VLLM" == "ON" ]; then
         if [ ! -d "$RESULT_DIR" ]; then
             mkdir -p $RESULT_DIR
         fi
-
-        export TENSOR_PARALLEL_SIZE=2
 
         export VLLM_RESULT_FILENAME=$RESULT_DIR/rps${RPS}_ol${OUTPUT_LENGTH}.txt
         export DATASETS_FILE=$INPUT_DIR/emission_rps${RPS}_ol${OUTPUT_LENGTH}.json

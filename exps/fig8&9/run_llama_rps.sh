@@ -9,7 +9,7 @@ export OUTPUT_DIR=$REPO_DIR/results/fig8/llama/
 export LLM_MODEL=meta-llama/llama-3.1-70b-instruct
 export MODEL_NAME=llama-3.1-70b-instruct
 export SSM_MODEL=meta-llama/llama-3.2-1b-instruct
-export TENSOR_PARALLEL_SIZE=4
+export TENSOR_PARALLEL_SIZE=8
 export BASELINE_LATENCY_PER_TOKEN_MS=30
 export BASELINE_LATENCY_PER_TOKEN=0.030
 

@@ -12,20 +12,21 @@ set -x
 set -e
 
 # Clone the codebase inside the container.
-git clone https://github.com/flexflow/flexflow-serve.git adaserve && cd adaserve
-git checkout AdaServe-AE
-git submodule update --init --recursive
+git clone --recursive https://github.com/zikun-li/AdaServe-Artifact-Evaluation.git
+cd AdaServe-Artifact-Evaluation
 
 # Build AdaServe.
+pushd adaserve
 pip install cmake==3.27.7
 rustup install 1.82.0 && rustup default 1.82.0
 mkdir -p build
 cd build
 ../config/config.linux
 make -j
+popd
 
 # Install th Python packages and download the huggingface models.
-cd ../..
+cd ..
 git clone https://github.com/flexflow/flexflow-serve.git download_model && cd download_model
 git checkout flexllm-aec
 git submodule update --init --recursive
