@@ -38,6 +38,7 @@ export REQUEST_BATCH=${REQUEST_BATCH:-64}
 ###################################################
 
 export ENABLE_SPECSCHEDULER_SPEC_INFER=${ENABLE_SPECSCHEDULER_SPEC_INFER:-OFF}
+export ENABLE_SPECSCHEDULER_SPEC_INFER_OVERHEAD_BREAKDOWN=${ENABLE_SPECSCHEDULER_SPEC_INFER_OVERHEAD_BREAKDOWN:-OFF}
 export ENABLE_SPECSCHEDULER_OLD_VERSION=${ENABLE_SPECSCHEDULER_OLD_VERSION:-OFF}
 export ENABLE_VLLM_SERVER_BENCHMARK=${ENABLE_VLLM_SERVER_BENCHMARK:-OFF}
 export ENABLE_VLLM_SPEC_INFER=${ENABLE_VLLM_SPEC_INFER:-OFF}
@@ -311,6 +312,84 @@ if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
     --max-tokens-per-ssm-spec-batch $MAX_TOKENS_PER_SSM_SPEC_BATCH"
     
 
+    if [ -n "$SPEC_INFER_OUTPUT_FILE" ]; then
+        exec 3>&1 4>&2
+        exec > $SPEC_INFER_OUTPUT_FILE 2>&1
+    fi
+    bash -c "$Command"
+    if [ -n "$SPEC_INFER_OUTPUT_FILE" ]; then
+        exec 1>&3 2>&4
+        exec 3>&- 4>&-
+    fi
+    echo $Command
+fi
+
+###############################################################################################
+#################### SpecScheduler spec_infer Overhead Breakdown ############################
+###############################################################################################
+
+if [ $ENABLE_SPECSCHEDULER_SPEC_INFER_OVERHEAD_BREAKDOWN = "ON" ]; then
+    # Set MAX_TREE_DEPTH based on model name prefix
+    if [[ "$LLM_MODEL" == Qwen/Qwen2.5-32B-instruct ]]; then
+        ZSIZE=100000
+        MAX_TREE_DEPTH=${MAX_TREE_DEPTH:-9}
+        MIN_TREE_DEPTH=${MIN_TREE_DEPTH:-2}
+        SSM_LATENCY_MS=35
+        LLM_LATENCY_MS=35
+        MAX_TREE_WIDTH=${MAX_TREE_WIDTH:-6}
+        BATCH_SIZE_TO_LATENCY_MS=${BATCH_SIZE_TO_LATENCY_MS:-"9 0 0.0 128 48.0 256 66.0 384 84.0 512 104.0 640 124.0 768 144.0 896 164.0 1024 188.0"}
+    elif [[ "$LLM_MODEL" == meta-llama/llama-3.1-70b-instruct ]]; then
+        ZSIZE=150000
+        MAX_TREE_DEPTH=${MAX_TREE_DEPTH:-10}
+        SSM_LATENCY_MS=70
+        LLM_LATENCY_MS=70
+        MIN_TREE_DEPTH=${MIN_TREE_DEPTH:-4}
+        MAX_TREE_WIDTH=${MAX_TREE_WIDTH:-10}
+        BATCH_SIZE_TO_LATENCY_MS=${BATCH_SIZE_TO_LATENCY_MS:-"9 0 0.0 128 55.0 256 85.0 384 105.0 512 125.0 640 145.0 768 165.0 896 185.0 1024 205.0"}
+    elif [[ "$LLM_MODEL" == meta-llama/Llama-2-7b-chat-hf ]]; then
+        MAX_TREE_DEPTH=6
+        SSM_LATENCY_MS=15
+        LLM_LATENCY_MS=15
+        MAX_TREE_WIDTH=6
+        MAX_TOKENS_PER_BATCH=192
+    else
+        echo -e "\e[31mUnknown model prefix. Exiting.\e[0m"
+        exit 1
+    fi
+
+    TENSOR_PARALLEL_SIZE=${TENSOR_PARALLEL_SIZE:-4}
+    MAX_REQUESTS_PER_BATCH=${MAX_REQUESTS_PER_BATCH:-96}
+    MAX_TOKENS_PER_BATCH=${MAX_TOKENS_PER_BATCH:-1024}
+    MAX_TOKENS_PER_SSM_SPEC_BATCH=${MAX_TOKENS_PER_SSM_SPEC_BATCH:-192}
+    MAX_OUTPUT_LENGTH=${MAX_OUTPUT_LENGTH:-128}
+    CHUNK_SIZE=${CHUNK_SIZE:-1024}
+    SPEC_BATCH_SIZE=${SPEC_BATCH_SIZE:-512}
+    CHUNKED_PREFILL_BUFFER_SIZE=${CHUNKED_PREFILL_BUFFER_SIZE:-128}
+
+    echo -e "Running SpecScheduler spec_infer with overhead breakdown..."
+    export Command="../adaserve/build/inference/spec_infer/spec_infer \
+    -ll:gpu $TENSOR_PARALLEL_SIZE -ll:cpu 8 -ll:fsize 38000 -ll:zsize $ZSIZE -ll:csize 55000 -ll:util 8 \
+    --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
+    -trace $DATASETS_FILE \
+    -output-file $SPEC_INFER_OUTPUT_LOG \
+    -tensor-parallelism-degree $TENSOR_PARALLEL_SIZE \
+    --max-sequence-length 2048 --max-output-length $MAX_OUTPUT_LENGTH \
+    --max-requests-per-batch $MAX_REQUESTS_PER_BATCH \
+    --max-tokens-per-batch $MAX_TOKENS_PER_BATCH \
+    --chunked-prefill \
+    --chunk-size $CHUNK_SIZE \
+    --spec-batch-size $SPEC_BATCH_SIZE \
+    --chunked-prefill-buffer-size $CHUNKED_PREFILL_BUFFER_SIZE \
+    --batch-size-2-latency-ms $BATCH_SIZE_TO_LATENCY_MS \
+    --max-tree-depth $MAX_TREE_DEPTH \
+    --max-tree-width $MAX_TREE_WIDTH \
+    --min-tree-depth $MIN_TREE_DEPTH \
+    --baseline-latency-ms $BASELINE_LATENCY_PER_TOKEN_MS \
+    --ssm-spec-latency-ms $SSM_LATENCY_MS \
+    --max-tokens-per-ssm-batch $MAX_TOKENS_PER_BATCH \
+    --max-tokens-per-ssm-spec-batch $MAX_TOKENS_PER_SSM_SPEC_BATCH \
+    --eval-overhead-breakdown"
+    
     if [ -n "$SPEC_INFER_OUTPUT_FILE" ]; then
         exec 3>&1 4>&2
         exec > $SPEC_INFER_OUTPUT_FILE 2>&1
