@@ -288,7 +288,7 @@ if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
 
 
     echo -e "Running SpecScheduler spec_infer..."
-    export Command="../systems/SpecScheduler/build/inference/spec_infer/spec_infer \
+    export Command="../adaserve/build/inference/spec_infer/spec_infer \
     -ll:gpu $TENSOR_PARALLEL_SIZE -ll:cpu 8 -ll:fsize 38000 -ll:zsize $ZSIZE -ll:csize 55000 -ll:util 8 \
     --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
     -trace $DATASETS_FILE \
@@ -331,7 +331,7 @@ fi
 if [ $ENABLE_SPECSCHEDULER_OLD_VERSION = "ON" ]; then
     echo -e "Running SpecScheduler old_version..."
     # nsys profile --stats=true --force-overwrite=true -o batch_64 \
-    export Command="../systems/SpecInfer/build/inference/spec_infer/spec_infer \
+    export Command="../adaserve/build/inference/spec_infer/spec_infer \
     -ll:gpu 4 -ll:cpu 8 -ll:fsize 38000 -ll:zsize 150000 -ll:csize 60000 -ll:util 8 \
     --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
     -trace $DATASETS_FILE -output-file $PWD/$OUTPUT_DIR/${MODEL_NAME}-${TORCH_DTYPE}-SpecScheduler_oldversion.txt \
