@@ -37,6 +37,6 @@ cd build
 make -j
 source ./set_python_envs.sh
 cd ..
-mkdir -p ../adaserve/models
-python inference/utils/download_hf_model.py --half-precision-only meta-llama/llama-3.1-70b-instruct meta-llama/llama-3.2-1b-instruct Qwen/Qwen2.5-32B-instruct Qwen/Qwen2.5-0.5B-instruct --cache-folder ../adaserve/models
+mkdir -p /models
+python inference/utils/download_hf_model.py --half-precision-only meta-llama/llama-3.1-70b-instruct meta-llama/llama-3.2-1b-instruct Qwen/Qwen2.5-32B-instruct Qwen/Qwen2.5-0.5B-instruct --cache-folder /models
 '

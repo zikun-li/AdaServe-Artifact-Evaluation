@@ -290,7 +290,7 @@ if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
     echo -e "Running SpecScheduler spec_infer..."
     export Command="../systems/SpecScheduler/build/inference/spec_infer/spec_infer \
     -ll:gpu $TENSOR_PARALLEL_SIZE -ll:cpu 8 -ll:fsize 70000 -ll:zsize $ZSIZE -ll:csize 55000 -ll:util 8 \
-    --fusion $USE_FULL_PRECISION -cache-folder $PWD/../models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
+    --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
     -trace $DATASETS_FILE \
     -output-file $SPEC_INFER_OUTPUT_LOG \
     -tensor-parallelism-degree $TENSOR_PARALLEL_SIZE \
@@ -333,7 +333,7 @@ if [ $ENABLE_SPECSCHEDULER_OLD_VERSION = "ON" ]; then
     # nsys profile --stats=true --force-overwrite=true -o batch_64 \
     export Command="../systems/SpecInfer/build/inference/spec_infer/spec_infer \
     -ll:gpu 4 -ll:cpu 8 -ll:fsize 70000 -ll:zsize 150000 -ll:csize 60000 -ll:util 8 \
-    --fusion $USE_FULL_PRECISION -cache-folder $PWD/../models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
+    --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
     -trace $DATASETS_FILE -output-file $PWD/$OUTPUT_DIR/${MODEL_NAME}-${TORCH_DTYPE}-SpecScheduler_oldversion.txt \
     -tensor-parallelism-degree 4 --max-sequence-length 2048 --max-output-length $MAX_OUTPUT_LENGTH \
     --spec-infer-old-version --max-requests-per-batch 48 --max-tokens-per-batch 1024 --max-tokens-per-ssm-batch 192 \
