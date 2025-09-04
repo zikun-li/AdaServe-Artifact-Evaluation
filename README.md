@@ -45,7 +45,7 @@ Then, follow the steps below to build a Docker container where you will be able 
 
 1. Run `./docker/build_container.sh` to build the container
 2. Run `./docker/start_container.sh` to start the container. It will continue running in the background until stopped. NOTE: The host directory `/opt/dlami/nvme/models` will be mounted into the container to avoid weights duplication in our machine. Feel free to change it to any directory you like in your own host machine.
-3. Run `./docker/setup_flexllm.sh` to install all the required libraries and download the Huggingface models in the container. When prompted, please provide your huggingface token to access the following models: `meta-llama/Llama-3.1-70B-Instruct`, `Qwen/Qwen2.5-32B-Instruct`. If you do not have a token, we can provide one.
+3. Run `./docker/setup_adaserve.sh` to install all the required libraries and download the Huggingface models in the container. When prompted, please provide your huggingface token to access the following models: `meta-llama/Llama-3.1-70B-Instruct`, `Qwen/Qwen2.5-32B-Instruct`. If you do not have a token, we can provide one.
 4. Run `./docker/attach_to_container.sh` to open a new terminal connected to the container. You can run this multiple times if you'd like to connect multiple terminal windows.
 
 ### Teardown
