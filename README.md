@@ -1,11 +1,11 @@
 # AdaServe-Artifact-Evaluation
-The artifact evaluation repo for AdaServe.
+This is the artifact evaluation repo for AdaServe.
 
 ## Getting Started Instructions
 
 ### Hardware setup
 
-### Using the Provided Machine
+#### Using the Provided Machine
 
 In the artifact evaluation, we will provide you a machine with the following characteristics:
 - 8 NVIDIA A100-SXM4-40GB GPUs
@@ -19,23 +19,29 @@ Please note that due to the availability issues, we cannot provide you a machine
 - 4 NVIDIA A100-SXM4-80GB GPUs
 - CUDA 12.4
 - Docker support with NVIDIA container runtime
+- 1.1TB+ RAM
 - 512GB+ disk memory
 
-
-
-### Using Your Own Machine
+#### Using Your Own Machine
 Please spin up a machine with the following characteristics:
 - 8 NVIDIA A100-SXM4-40GB GPUs
 - CUDA 12.4
 - Docker support with NVIDIA container runtime
+- 512GB+ RAM
 - 512GB+ disk memory
 
-If you are using AWS, please create a `p4de.24xlarge` instance with the `Deep Learning OSS Nvidia Driver AMI GPU PyTorch 2.7 (Ubuntu 22.04)` AMI. If you do not have access to such a machine, let us know and we will start a machine for you.
+If you are using AWS, please create a `p4de.24xlarge` instance with the `Deep Learning OSS Nvidia Driver AMI GPU PyTorch 2.7 (Ubuntu 22.04)` AMI.
 
-Once you have started the machine (or we started one for you), please connect to the machine via SSH. 
+Once you have started the machine, please connect to the machine via SSH. 
 
 ### Preparation
-To start, please download the code with `git clone --recursive https://github.com/zikun-li/AdaServe-Artifact-Evaluation.git`. Then, follow the steps below to build a Docker container where you will be able to run all experiments.
+To start, please download the code with 
+
+```bash
+git clone --recursive https://github.com/zikun-li/AdaServe-Artifact-Evaluation.git
+```
+
+Then, follow the steps below to build a Docker container where you will be able to run all experiments.
 
 1. Run `./docker/build_container.sh` to build the container
 2. Run `./docker/start_container.sh` to start the container. It will continue running in the background until stopped. NOTE: The host directory `/opt/dlami/nvme/models` will be mounted into the container to avoid weights duplication in our machine. Feel free to change it to any directory you like in your own host machine.
@@ -48,11 +54,11 @@ The teardown step is important to ensure that the next reviewer has access to a 
 - Run `./docker/cleanup_containers.sh` after you are done to stop and destroy the container and all docker images/data.
 - From the host machine, delete the `AdaServe-Artifact-Evaluation` repo and any other files you have created/downloaded
 
-## Running the experiments
+## Running the Experiments
 
 Here are step-by-step instructions for reproducing the evaluation results in the paper. 
 
-Please note that, due to the difference machine setups mentioned in Due to the difference in machine setups mentioned in the second section, the evaluation results will be different from what shown in the paper. However, the evaluation results should follow similar trend with what we've shown in the paper.
+Please note that, due to the difference machine setups mentioned in Due to the difference in machine setups mentioned in the second section, the evaluation results will be different from what shown in the paper. However, the evaluation results should follow similar trend with what we've shown in the paper and support the same claims.
 
 ### Figure 8 and 9
 
