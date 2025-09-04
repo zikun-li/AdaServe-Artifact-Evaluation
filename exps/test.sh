@@ -251,7 +251,7 @@ fi
 if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
     # Set MAX_TREE_DEPTH based on model name prefix
     if [[ "$LLM_MODEL" == Qwen/Qwen2.5-32B-instruct ]]; then
-        ZSIZE=100000
+        ZSIZE=200000
         MAX_TREE_DEPTH=${MAX_TREE_DEPTH:-9}
         MIN_TREE_DEPTH=${MIN_TREE_DEPTH:-2}
         SSM_LATENCY_MS=35
@@ -259,7 +259,7 @@ if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
         MAX_TREE_WIDTH=${MAX_TREE_WIDTH:-6}
         BATCH_SIZE_TO_LATENCY_MS=${BATCH_SIZE_TO_LATENCY_MS:-"9 0 0.0 128 48.0 256 66.0 384 84.0 512 104.0 640 124.0 768 144.0 896 164.0 1024 188.0"}
     elif [[ "$LLM_MODEL" == meta-llama/llama-3.1-70b-instruct ]]; then
-        ZSIZE=150000
+        ZSIZE=200000
         MAX_TREE_DEPTH=${MAX_TREE_DEPTH:-10}
         SSM_LATENCY_MS=70
         LLM_LATENCY_MS=70
@@ -290,7 +290,7 @@ if [ $ENABLE_SPECSCHEDULER_SPEC_INFER = "ON" ]; then
 
     echo -e "Running SpecScheduler spec_infer..."
     export Command="../adaserve/build/inference/spec_infer/spec_infer \
-    -ll:gpu $TENSOR_PARALLEL_SIZE -ll:cpu 8 -ll:fsize 38000 -ll:zsize $ZSIZE -ll:csize 55000 -ll:util 8 \
+    -ll:gpu $TENSOR_PARALLEL_SIZE -ll:cpu 8 -ll:fsize 38000 -ll:zsize $ZSIZE -ll:csize 100000 -ll:util 8 \
     --fusion $USE_FULL_PRECISION -cache-folder /models/ -llm-model $LLM_MODEL -ssm-model $SSM_MODEL \
     -trace $DATASETS_FILE \
     -output-file $SPEC_INFER_OUTPUT_LOG \
