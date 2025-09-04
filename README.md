@@ -60,6 +60,8 @@ Here are step-by-step instructions for reproducing the evaluation results in the
 
 Please note that, due to the difference machine setups mentioned in Due to the difference in machine setups mentioned in the second section, the evaluation results will be different from what shown in the paper. However, the evaluation results should follow similar trend with what we've shown in the paper and support the same claims.
 
+Each script list below launch a sequence of experiments with different configurations. The evaluation of a single configuration takes around 15 minutes.
+
 ### Figure 8 and 9
 
 Use the following commands to run the experiments for Figure 8 and 9. To run the evaluation for LLaMA-3.1-70B-Instruct:
