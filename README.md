@@ -79,7 +79,7 @@ ADASERVE=ON RPS_MIN=2.4 RPS_MAX=4.2 ./exps/fig8,9/run_qwen_rps.sh
 `RPS_MIN` and `RPS_MAX` can be adjusted to cover different RPS ranges. The minimal RPS is 2.6 and the maximal RPS is 4.8 for LLaMA-3.1-70B-Instruct on our evaluation. The minimal RPS is 2.4 and the maximal RPS is 4.2 for Qwen2.5-32B-Instruct on our evaluation. The minimal step size is set to 0.2.
 
 
-The results are saved in `results/fig8,9/llama/adaserve/`. 
+The results are saved in `results/fig8,9/llama/adaserve/` and `results/fig8,9/qwen/adaserve/`.
 
 ### Figure 10
 
@@ -97,7 +97,7 @@ ADASERVE=ON PROP_MIN=0.2 PROP_MAX=0.9 ./exps/fig10/run_qwen_prop.sh
 
 `PROP_MIN` and `PROP_MAX` can be adjusted to cover different proportion ranges. The minimal proportion is 0.1 and the maximal proportion is 0.9 for both LLaMA-3.1-70B-Instruct and Qwen2.5-32B-Instruct on our evaluation. The minimal step size is 0.1.
 
-The results are saved in `results/fig10/llama/adaserve/`.
+The results are saved in `results/fig10/llama/adaserve/` and `results/fig10/qwen/adaserve/`.
 
 ### Figure 11
 
@@ -115,7 +115,7 @@ ADASERVE=ON SLO_SCALE_MIN=0.6 SLO_SCALE_MAX=1.6 OUTPUT_LENGTH=256 ./exps/fig11/r
 
 `SLO_SCALE_MIN` and `SLO_SCALE_MAX` can be adjusted to cover different SLO ranges. The minimal SLO scale is 0.6 and the maximal SLO scale is 1.6 for both LLaMA-3.1-70B-Instruct and Qwen2.5-32B-Instruct on our evaluation. The minimal step size is 0.2.
 
-The results are saved in `results/fig11/llama/adaserve/`.
+The results are saved in `results/fig11/llama/adaserve/` and `results/fig11/qwen/adaserve/`.
 
 ### Figure 12
 
