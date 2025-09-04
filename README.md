@@ -1,5 +1,5 @@
 # AdaServe Artifact Evaluation
-This is the artifact evaluation repo for AdaServe ([paper pdf](eurosys-adaserve.pdf)).
+This is the artifact evaluation repo for AdaServe ([paper pdf](AdaServe-EuroSys.pdf)).
 
 ## Getting Started Instructions
 
