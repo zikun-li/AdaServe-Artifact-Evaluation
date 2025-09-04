@@ -1,4 +1,4 @@
-# AdaServe-Artifact-Evaluation
+# AdaServe Artifact Evaluation
 This is the artifact evaluation repo for AdaServe.
 
 ## Getting Started Instructions
