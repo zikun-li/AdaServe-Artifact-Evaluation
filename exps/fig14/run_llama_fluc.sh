@@ -13,6 +13,7 @@ export SSM_MODEL=meta-llama/llama-3.2-1b-instruct
 export TENSOR_PARALLEL_SIZE=8
 export VLLM_USE_V1=0
 export DATASETS_FILE=$INPUT_DIR/emission_fluc_6m_peak4.0.json
+export BASELINE_LATENCY_PER_TOKEN_MS=30
 export BASELINE_LATENCY_PER_TOKEN=0.030
 
 ADASERVE=${ADASERVE:-OFF}

@@ -21,6 +21,7 @@ export MODEL_NAME=Qwen/Qwen2.5-32B-instruct
 export SSM_MODEL=Qwen/Qwen2.5-0.5B-instruct
 export TENSOR_PARALLEL_SIZE=4
 export VLLM_USE_V1=0
+export BASELINE_LATENCY_PER_TOKEN_MS=28
 export BASELINE_LATENCY_PER_TOKEN=0.028
 
 RPS=${RPS:-4.0}

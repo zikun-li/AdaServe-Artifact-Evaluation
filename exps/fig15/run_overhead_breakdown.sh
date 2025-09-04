@@ -5,13 +5,6 @@ cd "${BASH_SOURCE[0]%/*}"
 REPO_DIR=$(pwd)/../../
 
 export INPUT_DIR=$REPO_DIR/exps/fig15/
-export OUTPUT_DIR=$REPO_DIR/results/fig15/llama/
-export LLM_MODEL=meta-llama/llama-3.1-70b-instruct
-export MODEL_NAME=llama-3.1-70b-instruct
-export SSM_MODEL=meta-llama/llama-3.2-1b-instruct
-export TENSOR_PARALLEL_SIZE=8
-export BASELINE_LATENCY_PER_TOKEN_MS=30
-export BASELINE_LATENCY_PER_TOKEN=0.030
 
 OUTPUT_LENGTH=${OUTPUT_LENGTH:-128}
 TEST_SCRIPT=${TEST_SCRIPT:-$REPO_DIR/exps/test.sh}
@@ -22,6 +15,15 @@ QWEN_OVERHEAD=${QWEN_OVERHEAD:-OFF}
 # ADASERVE OVERHEAD BREAKDOWN - LLAMA
 if [ "$LLAMA_OVERHEAD" == "ON" ]; then
     RESULT_DIR=${OUTPUT_DIR}/adaserve_overhead
+
+    export OUTPUT_DIR=$REPO_DIR/results/fig15/llama/
+    export LLM_MODEL=meta-llama/llama-3.1-70b-instruct
+    export MODEL_NAME=llama-3.1-70b-instruct
+    export SSM_MODEL=meta-llama/llama-3.2-1b-instruct
+    export TENSOR_PARALLEL_SIZE=8
+    export BASELINE_LATENCY_PER_TOKEN_MS=30
+    export BASELINE_LATENCY_PER_TOKEN=0.030
+
 
     if [ ! -d "$RESULT_DIR" ]; then
         mkdir -p $RESULT_DIR
