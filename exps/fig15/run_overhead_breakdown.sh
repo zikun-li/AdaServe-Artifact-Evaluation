@@ -38,7 +38,7 @@ if [ "$LLAMA_OVERHEAD" == "ON" ]; then
         echo "Output file $SPEC_INFER_OUTPUT_FILE already exists. Skipping this run."
     else
         MAX_OUTPUT_LENGTH=$OUTPUT_LENGTH
-        MAX_REQUESTS_PER_BATCH=96
+        MAX_REQUESTS_PER_BATCH=64
         MAX_TOKENS_PER_SSM_SPEC_BATCH=96
         MAX_TREE_DEPTH=8
         MAX_TREE_WIDTH=3
